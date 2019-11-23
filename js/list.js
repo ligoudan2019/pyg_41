@@ -8,7 +8,7 @@ $(()=>{
   phoneData.forEach(e=>{
     // 生成结构
     html += `<li class="goods-list-item">
-    <a href="detail.html?id=1">
+    <a href="detail.html?id=${e.pID}">
       <div class="item-img">
         <img src="${e.imgSrc}" alt="">
       </div>
