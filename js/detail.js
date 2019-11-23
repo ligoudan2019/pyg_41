@@ -64,7 +64,7 @@ $(function () {
         // 件数要从输入框里面获取
         number: number
       };
-      // 把数据放到数组里面，然后存到本地数据里面
+      // 把数据放到数组里面，然后存到本地数据里 面
       arr.push(obj);
     }
     kits.saveData('cartListData', arr);
