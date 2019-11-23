@@ -29,11 +29,32 @@ $(function () {
   // 第四天的代码
   // 点击加入购物车
   $('.addshopcar').on('click',function(){
+    // 先获取输入框里面的件数
+    let number = $('.choose-number').val();
+    // 判断用户输入的数据的合理性
+    // 如果输入的是空的，不是数字，数量小于0 都是不合理的情况
+    if(number.trim().length === 0 || isNaN(number) || parseInt(number) <= 0){
+      alert('商品数量不正确，请正确输入');
+      return;
+    }
     // 把件数和商品的信息存储到本地数据里面
     // 商品的数据会有很多，所以需要往本地数据里面存储的是一个数组
     // 先从本地数据中读取出一个指定的键 - 键是你自己定义的
     let arr = kits.loadData('cartListData');
     // console.log(arr);
     // 有了数组了，可以向里面存储东西了
+    // 往数组里面存储的数据应该是一个一个的对象，每个商品都是一个对象
+    // 需要自己构建数据对象
+    let obj = {
+      pID : target.pID,
+      imgSrc : target.imgSrc,
+      name : target.name,
+      price : target.price,
+      // 件数要从输入框里面获取
+      number : number
+    };
+    // 把数据放到数组里面，然后存到本地数据里面
+    arr.push(obj);
+    kits.saveData('cartListData',arr)
   })
 });
