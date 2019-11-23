@@ -137,4 +137,64 @@ $(function () {
     // console.log($(this).parents('.item').find('.computed')); // find这个方法用于查找某个元素的后代元素中，满足条件的部分
     $(this).parents('.item').find('.computed').text(obj.number * obj.price);
   })
+
+  // 点击减号
+  $('.item-list').on('click','.reduce',function(){
+    // 让 输入框里面的 数量增加
+    let next = $(this).next();
+    let current = next.val();
+    // 判断一下，当前的值是否是 小于等于1
+    if(current <= 1){
+      alert('商品的件数不能小于1');
+      return;
+    }
+    next.val(--current);
+    // 数量也要更新到本地数据
+    let id = $(this).parents('.item').attr('data-id');
+    let obj = arr.find(e=>{
+      return e.pID == id;
+    });
+    obj.number = current;
+    // 要把数据存储到本地里面才可以
+    kits.saveData('cartListData',arr);
+    // 更新总件数和总价格
+    calcTotal();
+    // 更新右边的总价
+    // console.log($(this).parents('.item').find('.computed')); // find这个方法用于查找某个元素的后代元素中，满足条件的部分
+    $(this).parents('.item').find('.computed').text(obj.number * obj.price);
+  })
+
+  // 当得到焦点的时候，把当前的值，先保存 起来，如果失焦的时候输入的结果是不合理的，我们可以恢复原来的数字
+  $('.item-list').on('focus','.number',function(){
+    // 把旧的，正确的数量先存储起来
+    let old = $(this).val();
+    $(this).attr('data-old',old);
+  });
+
+  // 当输入框失去焦点的时候，需要把当前的值也同步到本地数据里面
+  $('.item-list').on('blur','.number',function(){
+    // 跟加减的操作是一样的，只不过我们需要对用户的输入进行验证
+    let current = $(this).val();
+    // 每次让用户自己输入的内容，一定要做合法性判断
+    if (current.trim().length === 0 || isNaN(current) || parseInt(current) <= 0) {
+      let old = $(this).attr('data-old');
+      $(this).val(old); // 如果用户输入的不正确，恢复以前的正确的数字
+      alert('商品数量不正确，请输入一个阿拉伯数字');
+      return;
+    }
+    // 如果验证通过，把总价之类数据更新即可
+    // 数量也要更新到本地数据
+    let id = $(this).parents('.item').attr('data-id');
+    let obj = arr.find(e=>{
+      return e.pID == id;
+    });
+    obj.number = parseInt(current);
+    // 要把数据存储到本地里面才可以
+    kits.saveData('cartListData',arr);
+    // 更新总件数和总价格
+    calcTotal();
+    // 更新右边的总价
+    // console.log($(this).parents('.item').find('.computed')); // find这个方法用于查找某个元素的后代元素中，满足条件的部分
+    $(this).parents('.item').find('.computed').text(obj.number * obj.price);
+  })
 });
