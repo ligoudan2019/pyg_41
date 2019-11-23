@@ -116,4 +116,25 @@ $(function () {
   }
   // 需要一开始就计算一次
   calcTotal();
+
+  // 第三个功能 - 实现数量的加减
+  $('.item-list').on('click','.add',function(){
+    // 让 输入框里面的 数量增加
+    let prev = $(this).prev();
+    let current = prev.val();
+    prev.val(++current);
+    // 数量也要更新到本地数据
+    let id = $(this).parents('.item').attr('data-id');
+    let obj = arr.find(e=>{
+      return e.pID == id;
+    });
+    obj.number = current;
+    // 要把数据存储到本地里面才可以
+    kits.saveData('cartListData',arr);
+    // 更新总件数和总价格
+    calcTotal();
+    // 更新右边的总价
+    // console.log($(this).parents('.item').find('.computed')); // find这个方法用于查找某个元素的后代元素中，满足条件的部分
+    $(this).parents('.item').find('.computed').text(obj.number * obj.price);
+  })
 });
