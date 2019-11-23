@@ -10,7 +10,7 @@ $(function () {
     <div class="row">
       <div class="cell col-1 row">
         <div class="cell col-1">
-          <input type="checkbox" class="item-ck" checked="">
+          <input type="checkbox" class="item-ck" ${e.isChecked ? "checked":''}>
         </div>
         <div class="cell col-4">
           <img src="${e.imgSrc}" alt="">
@@ -41,6 +41,15 @@ $(function () {
   </div>`;
   })
   $('.item-list').append(html);
+
+  // 如果arr里面的数据不是全都勾选的，需要把全选的勾选去掉
+  let noCkAll = arr.find(e=>{
+    return e.isChecked === false;
+  });
+  if(noCkAll){
+    // 有没有勾选的产品
+    $('.pick-all').prop('checked',false);
+  }
 
   if (arr.length != 0) {
     // 处理一些该隐藏的效果和该显示的效果

@@ -62,7 +62,9 @@ $(function () {
         name: target.name,
         price: target.price,
         // 件数要从输入框里面获取
-        number: number
+        number: number,
+        // 保持勾选的状态的属性
+        isChecked : true
       };
       // 把数据放到数组里面，然后存到本地数据里 面
       arr.push(obj);
